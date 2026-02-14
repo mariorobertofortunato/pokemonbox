@@ -33,7 +33,7 @@ class PokemonRepositoryImpl @Inject constructor(
                 is NetworkResponse.Success -> {
                     val listResponse = response.data
                     val pokemonList = listResponse.toDomain()
-                    val detailsList = coroutineScope {
+                    val detailedList = coroutineScope {
                         val semaphore = Semaphore(5)
                         pokemonList.map { pokemon ->
                             async {
@@ -54,7 +54,7 @@ class PokemonRepositoryImpl @Inject constructor(
                         )
                     }
                     Result.Success(
-                        PokemonListResult(list = detailsList, hasNextPage = listResponse.next != null)
+                        PokemonListResult(list = detailedList, hasNextPage = listResponse.next != null)
                     )
                 }
                 is NetworkResponse.Error -> Result.Error(
@@ -64,7 +64,6 @@ class PokemonRepositoryImpl @Inject constructor(
                 is NetworkResponse.Exception -> Result.Error(
                     message = response.throwable.message ?: "Errore di connessione"
                 )
-                is NetworkResponse.Loading -> Result.Loading
             }
         }
         emit(result)
@@ -85,8 +84,7 @@ class PokemonRepositoryImpl @Inject constructor(
                     detailsResponse.data.toDomain(description)
                 }
                 is NetworkResponse.Error,
-                is NetworkResponse.Exception,
-                is NetworkResponse.Loading -> null
+                is NetworkResponse.Exception -> null
             }
         }
 

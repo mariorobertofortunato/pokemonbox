@@ -1,8 +1,8 @@
 package com.example.pokemonbox.data.network.service
 
-import com.example.pokemonbox.data.network.model.PokemonDetailsResponse
-import com.example.pokemonbox.data.network.model.PokemonListResponse
-import com.example.pokemonbox.data.network.model.PokemonSpeciesResponse
+import com.example.pokemonbox.data.network.model.PokemonDetailsDto
+import com.example.pokemonbox.data.network.model.PokemonListDto
+import com.example.pokemonbox.data.network.model.PokemonSpeciesDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,16 +14,16 @@ interface PokemonApiService {
     suspend fun fetchPokemonList(
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
-    ): Response<PokemonListResponse>
+    ): Response<PokemonListDto>
 
     @GET("pokemon/{id}")
     suspend fun fetchPokemonDetails(
         @Path("id") id: Int
-    ): Response<PokemonDetailsResponse>
+    ): Response<PokemonDetailsDto>
 
- //descrizione
+ //descrizione (?) // todo capire se esite un campo/endpoint esplicito per la descrizione
     @GET("pokemon-species/{id}")
     suspend fun fetchPokemonSpecies(
         @Path("id") id: Int
-    ): Response<PokemonSpeciesResponse>
+    ): Response<PokemonSpeciesDto>
 }
