@@ -3,7 +3,6 @@ package com.example.pokemonbox.app.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,7 +10,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,22 +40,10 @@ fun MainScreenContent(
     val mainScreenUiState by mainScreenViewModel.mainScreenUiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        mainScreenViewModel.fetchInitialPokemonList()
+        mainScreenViewModel.loadPokemonList()
     }
 
     when (val state = mainScreenUiState) {
-
-        is MainScreenUiState.Loading -> {
-            Box(
-                modifier = modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
-            }
-
-        }
 
         is MainScreenUiState.Error -> {
 
@@ -73,7 +59,7 @@ fun MainScreenContent(
                 )
                 TextButton(
                     onClick = {
-                        mainScreenViewModel.fetchInitialPokemonList()
+                        mainScreenViewModel.loadPokemonList()
                     },
                     content = {
                         Text(
@@ -104,7 +90,7 @@ fun MainScreenContent(
                 }.collect { (lastVisible, total) ->
                     if (lastVisible != null) {
                         if (total > 0 && lastVisible >= total - 2) {
-                            mainScreenViewModel.fetchNextPage()
+                            mainScreenViewModel.loadPokemonList()
                         }
                     }
                 }
@@ -130,12 +116,15 @@ fun MainScreenContent(
                         )
                     }
                 }
-                if (state.isLoadingMore) {
-                    item(key = "isLoadingMore") {
+                if (state.isLoading) {
+                    item(key = "loading") {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(24.dp),
+                                .then(
+                                    if (state.entriesList.isEmpty()) Modifier.fillParentMaxHeight()
+                                    else Modifier.padding(24.dp)
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
                             CircularProgressIndicator()

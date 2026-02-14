@@ -4,7 +4,7 @@ import com.example.pokemonbox.data.mapper.toDomain
 import com.example.pokemonbox.data.network.model.NetworkResponse
 import com.example.pokemonbox.data.network.service.PokemonApiService
 import com.example.pokemonbox.domain.model.Pokemon
-import com.example.pokemonbox.domain.model.PokemonListResult
+import com.example.pokemonbox.domain.model.PokemonList
 import com.example.pokemonbox.domain.model.Result
 import com.example.pokemonbox.domain.repository.PokemonRepository
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +24,7 @@ class PokemonRepositoryImpl @Inject constructor(
     private val pokemonApiService: PokemonApiService
 ) : PokemonRepository {
 
-    override fun fetchPokemonList(offset: Int, limit: Int): Flow<Result<PokemonListResult>> = flow {
+    override fun fetchPokemonList(offset: Int, limit: Int): Flow<Result<PokemonList>> = flow {
         emit(Result.Loading)
         val result = withContext(Dispatchers.IO) {
             when (val response = handleNetworkResponse {
@@ -54,7 +54,7 @@ class PokemonRepositoryImpl @Inject constructor(
                         )
                     }
                     Result.Success(
-                        PokemonListResult(list = detailedList, hasNextPage = listResponse.next != null)
+                        PokemonList(list = detailedList, hasNextPage = listResponse.next != null)
                     )
                 }
                 is NetworkResponse.Error -> Result.Error(
