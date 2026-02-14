@@ -67,4 +67,6 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }
