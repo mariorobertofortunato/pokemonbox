@@ -1,0 +1,10 @@
+package com.example.pokemonbox.domain.model
+
+data class Pokemon(
+    val id: Int,
+    val name: String,
+    val url: String = "",
+    val types: List<String> = emptyList(),
+    val imageUrl: String = "",
+    val description: String = ""
+)

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PokemonBox</string>
+    <string name="loading">Caricamento…</string>
+    <string name="load_more">Carica altri</string>
+    <string name="error_network">Errore di rete</string>
+    <string name="retry">Riprova</string>
 </resources>
