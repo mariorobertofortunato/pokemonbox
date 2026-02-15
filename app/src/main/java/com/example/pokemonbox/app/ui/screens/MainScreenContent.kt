@@ -22,6 +22,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -127,7 +128,29 @@ fun MainScreenContent(
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator()
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                CircularProgressIndicator(
+                                    color = MaterialTheme.colorScheme.primaryContainer
+                                )
+                                Text(
+                                    text = if (state.entriesList.isNotEmpty()) {
+                                        stringResource(
+                                            R.string.loading_with_count,
+                                            state.entriesList.size
+                                        )
+                                    } else {
+                                        stringResource(
+                                            R.string.loading
+                                        )
+                                    },
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                )
+                            }
                         }
                     }
                 }

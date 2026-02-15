@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PokemonBox</string>
-    <string name="loading">Caricamento…</string>
-    <string name="load_more">Carica altri</string>
-    <string name="error_network">Errore di rete</string>
-    <string name="retry">Riprova</string>
+    <string name="loading">Loading…</string>
+    <string name="loading_with_count">Loading… (%d Pokémon analyzed)</string>
+    <string name="error_network">Network error</string>
+    <string name="retry">Retry</string>
 </resources>
