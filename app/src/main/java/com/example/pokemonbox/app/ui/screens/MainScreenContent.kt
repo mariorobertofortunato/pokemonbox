@@ -84,13 +84,15 @@ fun MainScreenContent(
                 }
             }
             val listState = rememberLazyListState()
-            LaunchedEffect(listState) {
+            val fullListSize = state.entriesList.size
+            LaunchedEffect(listState, fullListSize) {
                 snapshotFlow {
                     val layoutInfo = listState.layoutInfo
                     layoutInfo.visibleItemsInfo.lastOrNull()?.index to layoutInfo.totalItemsCount
                 }.collect { (lastVisible, total) ->
-                    if (lastVisible != null) {
-                        if (total > 0 && lastVisible >= total - 2) {
+                    if (lastVisible != null && total > 0) {
+                        val threshold = (total - 2).coerceAtLeast(0)
+                        if (lastVisible >= threshold) {
                             mainScreenViewModel.loadPokemonList()
                         }
                     }
